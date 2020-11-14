@@ -35,7 +35,25 @@ services:
       - ldap
     networks:
       - ldap-net
-
+  phpldapadmin:
+    image: osixia/phpldapadmin:latest
+    container_name: phpldapadmin
+    environment:
+      - PHPLDAPADMIN_LDAP_HOSTS=ldap
+      - PHPLDAPADMIN_HTTPS="false"
+      - LDAP_ADMIN_PASSWORD=${LDAP_ADMIN_PASSWORD}
+      - LDAP_BASE_DN=${LDAP_BASE_DN}
+      - LDAP_DOMAIN=${LDAP_DOMAIN}
+      - LDAP_LOG_LEVEL=0
+      - LDAP_ORGANISATION=${LDAP_ORGANISATION}
+      - LDAP_READONLY_USER_PASSWORD=${LDAP_READONLY_USER_PASSWORD}
+      - LDAP_READONLY_USER=true
+    ports:
+      - "6080:80"
+    depends_on:
+      - ldap
+    networks:
+      - ldap-net
 volumes:
   ldap:
   slapd:
